@@ -98,3 +98,6 @@ Just run the script in a system that has NodeJs environment installed
 
 ## 🏁 Screenshots - 
 <img src = "./ss_1.png"><br>
+<img src = "./ss_2.png"><br>
+<img src = "./ss_3.png"><br>
+<img src = "./ss_4.png"><br>
