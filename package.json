@@ -1,0 +1,19 @@
+{
+  "name": "firebase_try",
+  "version": "1.0.0",
+  "main": "script.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "cli-progress": "^3.9.0",
+    "cli-table": "^0.3.6",
+    "colors": "^1.4.0",
+    "node-emoji": "^1.10.0",
+    "puppeteer": "^9.0.0"
+  },
+  "devDependencies": {},
+  "description": ""
+}
