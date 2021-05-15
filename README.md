@@ -114,6 +114,8 @@ And your backup will be stored under -
 
 <img src = "./Screenshots/ss_1.png"><br>
 
+<img src = "./Screenshots/ss_5.png"></br>
+
 <img src = "./Screenshots/ss_2.png"><br>
 
 <img src = "./Screenshots/ss_3.png"><br>
