@@ -250,8 +250,6 @@ function showDefault() {
   id = "id here";
   pass = "pass here";
   */
-  id = "testemail5047";
-  pass = "Test@1234";
 }
 
 // * function to sort projects based on their id's
