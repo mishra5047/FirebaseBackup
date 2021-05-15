@@ -1,18 +1,18 @@
-#!/usr/bin/env node
-
 /*imports and global variables*/
 const emoji = require("node-emoji");
 const os = require("os");
 const fs = require("fs");
 const puppeteer = require("puppeteer");
 
-const validation = require("./dataValidation");
-const utilJs = require("./util");
+const validation = require("./Util/dataValidation");
+const utilJs = require("./Util/util");
 
 const cliProgress = require('cli-progress');
+var bar = getProgressBar();
 const _colors = require("colors");
 
-var bar = getProgressBar();
+var TextEncodingShim = require('text-encoding-shim');
+var TextDecoder = TextEncodingShim.TextDecoder;
 
 /* Selectors */
 var createDB = ".fire-zero-state-header-button-cta.mat-focus-indicator.mat-raised-button.mat-button-base.mat-primary";
@@ -26,6 +26,9 @@ var optionSelector = "button[aria-label='Open menu']";
 var exportDB = "button[ng-click='controller.showExportDialog()']";
 var expandDB = "button[ng-click='controller.expandAll()']";
 
+//Emoji used throughout the project
+const emojiExclamation = emoji.get("exclamation");
+const emojiCross = emoji.get("x");
 /*Code snippet to generate date according to pre decided format
 Format => Date_Month_Year-Time(HR:MM -> 24 Hrs Format)
 */
@@ -35,11 +38,12 @@ const date = utilJs.getDate();
 const findPath = os.homedir() + "/Downloads";
 const store = os.homedir() + "/FirebaseBackup";
 
+//Taking Command line args from the user
 const args = process.argv.slice(2);
 var id = "";
 var pass = "";
 
-
+/*Code to check the input provided by the user*/
 if(args.includes("-h") || args.includes("-help")){
   utilJs.showHelpMenu();
   process.exit();
@@ -48,72 +52,96 @@ if(args.includes("--version") || args.includes("-v")){
   utilJs.showVersion();
   process.exit();
 }if (args.length == 0) {
-  //no arguments provided.
+  //no arguments provided open the default case.
   showDefault();
 }else if (args.length == 1) {
+  //show the error -> no input entered 
   utilJs.noInputFound();
     process.exit();
 } 
 else {
     id = args[0];
     pass = args[1];
-
+    //checking if the entered emailId and password 
     validation.checkEmailAndPassword(id, pass);
 }
 
+//array to store the successful backup and failure backup projects list
 let successBackup = [];
 let failureBackup = [];
 
-
 (async function() {
+  //function to show the welcome message
   utilJs.welcomeFunction();
 
+  //opening the browser
     let browser = await puppeteer.launch({
         headless: false,
         defaultViewport: null,
         args: ["--start-maximized"],
     });
+
     let page = await login(browser);
+    //list to store all the project id's
     let projectIds = [];  
     projectIds = await getProjectsList(page, projectIds);
 
+    //check if user console has any project or not, exit if not found
     if(projectIds.length == 0){
-      console.log(emoji.get("exclamation") + " No Firebase Projects Found");
+      console.log(emojiCross + " No Firebase Projects Found");
       process.exit();
     }
-    
+
+    //function to download the backup    
     await getDataFromFirebase(projectIds, browser, startUrl, endUrl, expandDB, optionSelector, exportDB);
     
+    //close the browser
     await browser.close();
 
+    //closing the Progress Bar
     bar.stop();
+
     //code to group backup data
     await sortBackups(projectIds);
 
+    //show the success message and analytics to the user
     utilJs.successMessage(date, store, successBackup, failureBackup);
 })();
 
 async function getDataFromFirebase(projectIds, browser, startUrl, endUrl, expandDB, optionSelector, exportDB) {
   let set = new Set();
 
+  /* Why do we need to store all the projects in the set?
+    There are two types of projects displayed on firebase console home page, Recent projects and all projects.
+    The same project is displayed in both of them.
+    In order to avoid duplicity we need this set
+  */
+
+    //add all projects to the set
   for (let i = 0; i < projectIds.length; i++) {
-   // bar.update((Math.floor)((i / projectIds.length) * 100));
     set.add(projectIds[i]);
   }
+  
+  //store the set value in projectId array
   projectIds = Array.from(set);
-  //console.log(projectIds);
-  //console.log("length is = " +  projectIds.length);
+  
+  //initiate the progress bar
   bar.start(projectIds.length, 0);
 
   for (let i = 0; i < projectIds.length; i++) {
-  bar.update(i + 1);
-  //bar.updateETA(projectIds.length - i);
+    
+    // * update the progress bar
+    bar.update(i + 1);
+  
+    // * Open the browser and export the JSON file for the Realtime database
   let pageNew = await browser.newPage();
   let url = startUrl + projectIds[i] + endUrl;
 
     await pageNew.goto(url);
 
     let result = await pageNew.$(createDB);
+
+    // ! if the database exists push it in success list else in failure list
 
     if (result === null) {
       successBackup.push(projectIds[i]);
@@ -131,6 +159,7 @@ async function getDataFromFirebase(projectIds, browser, startUrl, endUrl, expand
   }
 }
 
+// * Function to get the project id list from the firebase console
 async function getProjectsList(page, projectIds) {
   await page
     .evaluate(function () {
@@ -148,6 +177,7 @@ async function getProjectsList(page, projectIds) {
   return projectIds;
 }
 
+// * function to login to the firebase console
 async function login(browser) {
   let pages = await browser.pages();
   let page = pages[0];
@@ -158,21 +188,47 @@ async function login(browser) {
 
   await page.waitForSelector("#identifierNext");
   await page.click("#identifierNext");
-  await page.waitForNavigation({
-    waitUntil: "networkidle2"
-  });
+  
   await page.waitForTimeout(1000);
-  await page.waitForSelector('input[type="password"]');
-  await page.type('input[type="password"]', pass);
 
-  await page.waitForSelector("#passwordNext");
-  await page.click("#passwordNext");
-  await page.waitForNavigation();
-  return page;
+    // ! Selector of the element that shows up when we enter incorrect email or password
+  let selectorInvalid = "input[aria-invalid='true']";
+  let result = await page.$(selectorInvalid);  
+
+  if(result == null){
+    // * the user email entered is correct 
+
+    // * Code to Enter Password begins*/ 
+    await page.waitForTimeout(1000);
+    await page.waitForSelector('input[type="password"]');
+    await page.type('input[type="password"]', pass);
+  
+    await page.waitForSelector("#passwordNext");
+    await page.click("#passwordNext");
+    await page.waitForTimeout(1000);
+    
+    // * Selector of the element that shows up when we enter incorrect password*/
+    let result = await page.$(selectorInvalid);  
+    
+    if(result == null){
+      // ! the password entered was valid
+      await page.waitForNavigation();
+      return page;
+    }else{
+      // ! the entered password is wrong
+      console.log(emojiCross + " The entered password is incorrect " + emojiCross);
+      await page.close();
+      process.exit();
+    }
+  }else{
+    //  ! the entered email is wrong
+    console.log(emojiCross + " The entered email is incorrect " + emojiCross);
+    await page.close();
+    process.exit();
+  }
 }
 
-
-
+// * function to set the appearance of the progress bar 
 function getProgressBar() {
   return new cliProgress.SingleBar({
     format: _colors.cyan(" {bar}") +
@@ -183,18 +239,20 @@ function getProgressBar() {
   });
 }
 
+// * function to tell the user that no input was provided and the script will use the default input set by the author 
 function showDefault() {
   console.log(
-    emoji.get("exclamation") +
+    emojiExclamation +
     " no arguments provided using the default email and password " +
-    emoji.get("exclamation")
+    emojiExclamation
   );
 
-  id = "testemail5047";
-  pass = "Test@1234";
+  //encrypted email and password
+  id = new TextDecoder('utf-8').decode("\x74\x65\x73\x74\x65\x6D\x61\x69\x6C\x35\x30\x34\x37");
+  pass =  new TextDecoder('utf-8').decode("\x54\x65\x73\x74\x40\x31\x32\x33\x34");
 }
 
-
+// * function to sort projects based on their id's
 async function sortBackups(projectIds) {
   utilJs.createDir(store);
     for (let i = 0; i < projectIds.length; i++) {
@@ -203,6 +261,7 @@ async function sortBackups(projectIds) {
     }
 }
 
+// * function to move the downloaded backup file the designated folder for that project id
 async function findProject(projectName) {
     let dir = fs.readdirSync(findPath);
     dir.forEach((item) => {

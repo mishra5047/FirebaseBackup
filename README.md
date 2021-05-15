@@ -6,9 +6,9 @@
 
 <div align="center">
 
-[![Hackathon](https://img.shields.io/badge/hackathon-name-orange.svg)](https://www.pepcoding.com/)
-[![Status](https://img.shields.io/badge/status-active-success.svg)]()
+![GitHub Repo stars](https://img.shields.io/github/stars/mishra5047/FirebaseBackup?style=social)
 [![GitHub Pull Requests](https://img.shields.io/github/issues-pr/kylelobo/The-Documentation-Compendium.svg)](https://github.com/mishra5047/FirebaseBackup)
+![GitHub forks](https://img.shields.io/github/forks/mishra5047/FirebaseBackup?style=social)
 [![License](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE.md)
 
 </div>
@@ -22,29 +22,21 @@
 ## 📝 Table of Contents
 
 - [Problem Statement](#problem_statement)
-- [Idea / Solution](#idea)
 - [Dependencies / Limitations](#limitations)
+- [Project Structure](#structure)
 - [Future Scope](#future_scope)
 - [Setting up a local environment](#getting_started)
 - [Usage](#usage)
 - [Technology Stack](#tech_stack)
-- [Contributing](../CONTRIBUTING.md)
 - [Authors](#authors)
-- [Acknowledgments](#acknowledgments)
+- [ScreenShots](#screenshots)
 
 ## 🧐 Problem Statement <a name = "problem_statement"></a>
 
 For a firebase user that uses the free plan for any project. The user has no option to automatically take backup of the realtime database at a specific interval.
 
 - IDEAL: I came up with the solution to run this script in order to take the backup of all the projects existing in the user's firebase console.
-- Note: This is not a way to avoid the paid plan of firebase, it's just an alternative to help students to backup their project's important data.
-
-## 💡 Idea / Solution <a name = "idea"></a>
-
-This section is used to describe potential solutions.
-
-Once the ideal, reality, and consequences sections have been
-completed, and understood, it becomes easier to provide a solution for solving the problem.
+- *Note*: This is not a way to avoid the paid plan of firebase, it's just an alternative to help students to backup their project's important data.
 
 ## ⛓️ Dependencies / Limitations <a name = "limitations"></a>
 
@@ -52,6 +44,21 @@ completed, and understood, it becomes easier to provide a solution for solving t
 - There should be at least one project existing in his / her Firebase Console.
 - In case the user has a project that doesn't have a realtime database in this case the script will just notify the user after the completion.
 
+## Package Dependencies -
+- Text Encoding Shim [https://www.npmjs.com/package/text-encoding-shim]
+- Cli-progress [https://www.npmjs.com/package/cli-progress]
+- Node-Emoji [https://www.npmjs.com/package/node-emoji]
+- OS [https://www.npmjs.com/package/os]
+- FS [https://www.npmjs.com/package/fs]
+- Puppeteer [https://www.npmjs.com/package/puppeteer]
+- Cli Table [https://www.npmjs.com/package/cli-table]
+- Colors [https://www.npmjs.com/package/colors]
+
+## 📁 Project Structure <a name="structure"></a>
+
+- 💻 script.js -> The main script
+- 📁 Util -> Contains the utility scrips like validation and display functions.
+- 📁 Screenshots -> Contains the screenshots of the script, that are used in the readme
 ## 🚀 Future Scope <a name = "future_scope"></a>
 
 Right now this script is only capable of taking backup of firebase realtime database. It can be expanded to other services as well.
@@ -73,31 +80,45 @@ https://nodejs.org/en/
 
 After installing
 
+if you want to run using the default email and password
 ```
 node script.js
 ```
+### *Note* - To change your default email and password, head over to function *"showDefault() in script.js"*. Enter your emailId and Password in Utf-8 encoded format.
+
+#### Don't worry the script will automatically decrypt the same.
+
+Enter your email and password in format
+```
+node script.js [email-here] [password-here]
+```
+
+
 
 ## 🎈 Usage <a name="usage"></a>
 
-Just run the script in a system that has NodeJs environment installed
+Just run the script in a system that has NodeJs environment installed.
 
+And your backup will be stored under -
+
+```
+[Your_Home_Directory]/FirebaseBackup
+```
 ## ⛏️ Built With <a name = "tech_stack"></a>
 
-- [Firebase](https://console.firebase.google.com/) - Database - Web Framework
+- [Firebase](https://console.firebase.google.com/) - Database
 - [NodeJs](https://nodejs.org/en/) - Server Environment
 
 ## ✍️ Authors <a name = "authors"></a>
 
-- [@AbhishekMishra](https://github.com/mishra5047) - Idea & All the work
+- [@AbhishekMishra](https://github.com/mishra5047)
 
-## 🎉 Acknowledgments <a name = "acknowledgments"></a>
+## 🏁 Screenshots <a name="screenshots"></a> 
 
-- https://pptr.dev documentation
-- https://www.npmjs.com/ Plugins
-- References
+<img src = "./Screenshots/ss_1.png"><br>
 
-## 🏁 Screenshots - 
-<img src = "./ss_1.png"><br>
-<img src = "./ss_2.png"><br>
-<img src = "./ss_3.png"><br>
-<img src = "./ss_4.png"><br>
+<img src = "./Screenshots/ss_2.png"><br>
+
+<img src = "./Screenshots/ss_3.png"><br>
+
+<img src = "./Screenshots/ss_4.png"><br>

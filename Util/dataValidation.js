@@ -1,3 +1,7 @@
+/*This file contains the functions to perform data validation.
+i.e. check whether the correct email and password matches the password and email policy by google
+*/
+
 module.exports = {checkEmailAndPassword};
 const utilJs = require("./util")
 

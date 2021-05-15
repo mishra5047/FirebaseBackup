@@ -12,7 +12,8 @@
     "cli-table": "^0.3.6",
     "colors": "^1.4.0",
     "node-emoji": "^1.10.0",
-    "puppeteer": "^9.0.0"
+    "puppeteer": "^9.0.0",
+    "text-encoding-shim": "^1.0.5"
   },
   "devDependencies": {},
   "description": ""
