@@ -45,7 +45,6 @@ For a firebase user that uses the free plan for any project. The user has no opt
 - In case the user has a project that doesn't have a realtime database in this case the script will just notify the user after the completion.
 
 ## Package Dependencies -
-- Text Encoding Shim [https://www.npmjs.com/package/text-encoding-shim]
 - Cli-progress [https://www.npmjs.com/package/cli-progress]
 - Node-Emoji [https://www.npmjs.com/package/node-emoji]
 - OS [https://www.npmjs.com/package/os]
@@ -84,9 +83,7 @@ if you want to run using the default email and password
 ```
 node script.js
 ```
-### *Note* - To change your default email and password, head over to function *"showDefault() in script.js"*. Enter your emailId and Password in Utf-8 encoded format.
-
-#### Don't worry the script will automatically decrypt the same.
+### *Note* - To change your default email and password, head over to function *"showDefault() in script.js"*. Enter your emailId and Password.
 
 Enter your email and password in format
 ```

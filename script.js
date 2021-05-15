@@ -8,11 +8,8 @@ const validation = require("./Util/dataValidation");
 const utilJs = require("./Util/util");
 
 const cliProgress = require('cli-progress');
-var bar = getProgressBar();
 const _colors = require("colors");
-
-var TextEncodingShim = require('text-encoding-shim');
-var TextDecoder = TextEncodingShim.TextDecoder;
+var bar = getProgressBar();
 
 /* Selectors */
 var createDB = ".fire-zero-state-header-button-cta.mat-focus-indicator.mat-raised-button.mat-button-base.mat-primary";
@@ -246,10 +243,13 @@ function showDefault() {
     " no arguments provided using the default email and password " +
     emojiExclamation
   );
-
-  //encrypted email and password
-  id = new TextDecoder('utf-8').decode("\x74\x65\x73\x74\x65\x6D\x61\x69\x6C\x35\x30\x34\x37");
-  pass =  new TextDecoder('utf-8').decode("\x54\x65\x73\x74\x40\x31\x32\x33\x34");
+    
+  // ! Kindly De-Comment the following lines, in order to provide the default email id and password to the script
+  /*
+  put your id and pass here
+  id = "id here";
+  pass = "pass here";
+  */
 }
 
 // * function to sort projects based on their id's
