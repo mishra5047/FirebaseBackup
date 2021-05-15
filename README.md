@@ -112,6 +112,8 @@ And your backup will be stored under -
 
 ## 🏁 Screenshots <a name="screenshots"></a> 
 
+<img src= "./Screenshots/ss_6.png"><br>
+
 <img src = "./Screenshots/ss_1.png"><br>
 
 <img src = "./Screenshots/ss_5.png"></br>
@@ -121,3 +123,4 @@ And your backup will be stored under -
 <img src = "./Screenshots/ss_3.png"><br>
 
 <img src = "./Screenshots/ss_4.png"><br>
+

@@ -196,7 +196,7 @@ async function login(browser) {
     // * the user email entered is correct 
 
     // * Code to Enter Password begins*/ 
-    await page.waitForTimeout(1000);
+    await page.waitForTimeout(5000);
     await page.waitForSelector('input[type="password"]');
     await page.type('input[type="password"]', pass);
   
@@ -250,6 +250,8 @@ function showDefault() {
   id = "id here";
   pass = "pass here";
   */
+  id = "testemail5047";
+  pass = "Test@1234";
 }
 
 // * function to sort projects based on their id's
