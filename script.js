@@ -4,6 +4,9 @@ const os = require("os");
 const fs = require("fs");
 const puppeteer = require("puppeteer");
 
+// ! Create a file by the name of Credentials.json inside Utils, with id and password 
+const credential = require("./Util/Credentials.json")
+
 const validation = require("./Util/dataValidation");
 const utilJs = require("./Util/util");
 
@@ -244,12 +247,9 @@ function showDefault() {
     emojiExclamation
   );
     
-  // ! Kindly De-Comment the following lines, in order to provide the default email id and password to the script
-  /*
-  put your id and pass here
-  id = "id here";
-  pass = "pass here";
-  */
+  // ! Create a file by the name of Credentials.json inside Utils
+  id = credential["id"];
+  pass = credential["pass"];
 }
 
 // * function to sort projects based on their id's
