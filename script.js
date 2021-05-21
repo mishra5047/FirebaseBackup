@@ -3,6 +3,7 @@ const emoji = require("node-emoji");
 const os = require("os");
 const fs = require("fs");
 const puppeteer = require("puppeteer");
+const result = require("./Result/add");
 
 // ! Create a file by the name of Credentials.json inside Utils, with id and password 
 const credential = require("./Util/Credentials.json")
@@ -106,6 +107,9 @@ let failureBackup = [];
 
     //show the success message and analytics to the user
     utilJs.successMessage(date, store, successBackup, failureBackup);
+
+    result.addToHTML(successBackup, failureBackup);
+
 })();
 
 async function getDataFromFirebase(projectIds, browser, startUrl, endUrl, expandDB, optionSelector, exportDB) {
